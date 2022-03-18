@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.page-container {
+   position: relative;
+  min-height: 100vh;
+}
+
+#footer, h1, h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: bold;
+}
+
+h1, h2 {
+  margin-top: 2%;
+}
+
+   
+.content-wrap {
+   padding-bottom: 3.5rem;
+}
+.table>:not(caption)>*>* {
+  background-color: #5D8BF4;
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  max-width: 100%;
+  height: 2.5rem;            /* Footer height */
+  text-align: center;
+  background-color: #FFF9F9;
+  font-size: 1rem;
+}
+
+.table-dark{
+  --bs-table-hover-bg: #56BBF1;
+}
+
+label {
+  font-size: large;
+}
+
+.add-rest-flex {
+  justify-content: center;
+  margin-top: 2%;
+  
+}
+
+.layout-style {
+  background-color: #56BBF1;
+}
+
+.layout-style:hover {
+  background-color: #4D77FF;
+}
+
+.bg-primary {
+  background-color: #56BBF1!important;
+}
+
+.card {
+  font-size: 1.2rem;
+}
+
+.bg-primary {
+  background-color: red;
+}
+
+.form-control, .form-select {
+  border-color: #56BBF1;
+}
+.space {
+  margin-top: 1%;
+}
+
+.tight {
+  position: relative;
+  right: 4%;
+  cursor: pointer;
+}
+.search-hover:hover {
+  background-color: #dceaf5;
+}
+
+.table-header {
+  color: #F5EEDC;
+  font-size: 1.1rem;
+}
+
+.btn-space:hover {
+  background-color: #2FA4FF;
+}
+
+.table-hover:hover {
+  background-color: #F5EEDC;
+}
+
+.card  {
+  margin: 1.5%;
+}
+
+.placing{
+  position: relative;
+  top: -3%;
+}
+
+@media screen and (max-width: 600px) {
+  .table-header {
+    font-size: 0.9rem;
+  }
+}

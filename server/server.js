@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Get all Restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   try {
     //const results = await db.query("select * from restaurants");
     const restaurantRatingsData = await db.query(
@@ -34,7 +34,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 //Search restaurants
 app.get('/api/v1/restaurants/search', async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   try {
      search_query = String(req.query.search_query)
   const searchResult = await db.query(`SELECT * FROM restaurants
@@ -56,7 +56,7 @@ app.get('/api/v1/restaurants/search', async (req, res) => {
 
 //Get a Restaurant
 app.get("/api/v1/restaurants/:id", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   console.log(req.params.id);
 
   try {
@@ -87,7 +87,7 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 // Create a Restaurant
 
 app.post("/api/v1/restaurants", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   console.log(req.body);
  
   try {
@@ -116,7 +116,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
 // Update Restaurants
 
 app.put("/api/v1/restaurants/:id", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   try {
     const name_vector = String(req.body.name);
   const location_vector = String(req.body.location);
@@ -143,7 +143,7 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
 // Delete Restaurant
 
 app.delete("/api/v1/restaurants/:id", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   try {
     const results = db.query("DELETE FROM restaurants where id = $1", [
       req.params.id,
@@ -157,7 +157,7 @@ app.delete("/api/v1/restaurants/:id", async (req, res) => {
 });
 
 app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'});
+
   try {
     const newReview = await db.query(
       "INSERT INTO reviews (restaurant_id, name, review, rating) values ($1, $2, $3, $4) returning *;",
@@ -175,7 +175,7 @@ app.post("/api/v1/restaurants/:id/addReview", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`server is up and listening on port ${port}`);
 });

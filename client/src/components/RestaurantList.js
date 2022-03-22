@@ -1,11 +1,10 @@
-import React, { useEffect, useContext, setState, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useContext, useState } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import { useNavigate } from "react-router-dom";
 import StarRating from "./StarRating";
 
-const RestaurantList = (props) => {
+const RestaurantList = () => {
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
   let navigate = useNavigate();
   useEffect(() => {

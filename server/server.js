@@ -37,7 +37,7 @@ app.get('/api/v1/restaurants/search', async (req, res) => {
 
   try {
      search_query = String(req.query.search_query)
-  const searchResult = await db.query(`SELECT * FROM restaurants
+  const searchResult = await db.query(`SELECT to_tsvector FROM restaurants
               WHERE search_vector @@ to_tsquery($1)`,
     [ search_query ]);
     res.status(200).json({
@@ -93,11 +93,11 @@ app.post("/api/v1/restaurants", async (req, res) => {
   try {
      const name_vector = String(req.body.name);
   const location_vector = String(req.body.location);
-  const search_vector = [name_vector,
+  const search_array = [name_vector,
                          location_vector]
     const results = await db.query(
-      "INSERT INTO restaurants (name, location, price_range, search_vector) values ($1, $2, $3, to_tsvector($4)) returning *",
-      [req.body.name, req.body.location, req.body.price_range, search_vector]
+      "INSERT INTO restaurants (name, location, price_range, search_vector) values ($1, $2, $3, $4) returning *",
+      [req.body.name, req.body.location, req.body.price_range, to_tsvector(search_array)]
     );
     console.log(results);
     res.status(201).json({

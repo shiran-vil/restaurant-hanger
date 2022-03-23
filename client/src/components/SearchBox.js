@@ -14,7 +14,7 @@ const SearchBox = (props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await RestaurantFinder.get(`/search?search_query=${search_query}`);
+        const response = await RestaurantFinder.get("/search");
         
         console.log(response.data.data);
         setRestaurants(response.data.data.restaurants);

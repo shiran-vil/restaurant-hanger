@@ -47,7 +47,6 @@ const RestaurantList = () => {
         e.preventDefault();
         try {
           navigate(`/restaurants/search?search_query=${searching}`)
-           const response = await RestaurantFinder.get(`/search?search_query=${searching}`);
           console.log(searching);
       
      

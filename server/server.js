@@ -37,8 +37,8 @@ app.get('/api/v1/restaurants/search', async (req, res) => {
 
   try {
      search_query = String(req.query.search_query)
-  const searchResult = await db.query(`SELECT to_tsvector FROM restaurants
-              WHERE search_vector @@ to_tsquery($1)`,
+  const searchResult = await db.query(`SELECT * FROM restaurants
+              WHERE search_vector @@ (to_tsquery($1))`,
     [ search_query ]);
     res.status(200).json({
       status: "success",
@@ -96,8 +96,8 @@ app.post("/api/v1/restaurants", async (req, res) => {
   const search_array = [name_vector,
                          location_vector]
     const results = await db.query(
-      "INSERT INTO restaurants (name, location, price_range, search_vector) values ($1, $2, $3, $4) returning *",
-      [req.body.name, req.body.location, req.body.price_range, to_tsvector(search_array)]
+      "INSERT INTO restaurants (name, location, price_range, search_vector) values ($1, $2, $3, to_tsvector($4)) returning *",
+      [req.body.name, req.body.location, req.body.price_range, search_array]
     );
     console.log(results);
     res.status(201).json({
@@ -112,7 +112,6 @@ app.post("/api/v1/restaurants", async (req, res) => {
 });
 
 
-
 // Update Restaurants
 
 app.put("/api/v1/restaurants/:id", async (req, res) => {
@@ -123,7 +122,7 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
   const search_vector = [name_vector,
                          location_vector]
     const results = await db.query(
-      "UPDATE restaurants SET name = $1, location = $2, price_range = $3, search_vector=$4 where id = $5 returning *",
+      "UPDATE restaurants SET name = $1, location = $2, price_range = $3, search_vector=(to_tsvector($4)) where id = $5 returning *",
       [req.body.name, req.body.location, req.body.price_range, search_vector, req.params.id]
     );
 

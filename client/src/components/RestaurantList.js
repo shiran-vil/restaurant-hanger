@@ -42,17 +42,20 @@ const RestaurantList = () => {
     navigate(`/restaurants/${id}`);
   };
 
-  // const [searching, setSearch] = useState("");
-  // const handleSearch = async (e) => {
-  //       e.preventDefault();
-  //       try {
-  //         navigate(`/restaurants/search?search_query=${searching}`)
-  //         console.log(searching);
+  const [searching, setSearch] = useState("");
+  const handleSearch = async (e) => {
+        e.preventDefault();
+            
+        try {
+          navigate(`/restaurants/search?search_query=${searching}`)
+          console.log(searching);
       
-  //       } catch (error) {
-  //           console.log(error);
-  //       }
-  //   }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
 
 
   const renderRating = (restaurant) => {
@@ -69,7 +72,7 @@ const RestaurantList = () => {
 
   return (
     <div className="list-group content-wrap">
-    {/* <div className="">
+    <div className="">
       <form className="">
         <div className="row ">
           <div className="col-auto">
@@ -77,15 +80,16 @@ const RestaurantList = () => {
             id="search"
             label="Search"
             className=" form-control"
+            placeholder="Search"
             onChange={(e) => setSearch(e.target.value)}
           />
           </div>
           <div className="col tight">
-            <i className="fas fa-search search-hover" onClick={handleSearch}></i>
+            <i className="fas fa-search search-hover" onClick={handleSearch} ></i>
           </div>
         </div>
       </form>
-     </div>   */}
+     </div>  
    
       <table className="table table-hover table-dark space">
         <thead>

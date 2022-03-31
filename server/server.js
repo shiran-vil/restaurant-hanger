@@ -37,7 +37,8 @@ app.get('/api/v1/restaurants/search', async (req, res) => {
 
   try {
     search_query = req.query.search_query
-    const searchResult = await db.query(`SELECT id, name, location FROM restaurants
+    console.log(search_query);
+    const searchResult = await db.query(`SELECT id, name, location, price_range FROM restaurants
               WHERE search_vector @@ plainto_tsquery($1)`,
       [search_query]);
     res.status(200).json({

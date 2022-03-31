@@ -36,7 +36,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
 app.get('/api/v1/restaurants/search', async (req, res) => {
 
   try {
-     search_query = String(req.query.search_query)
+     search_query = req.query.search_query
   const searchResult = await db.query(`SELECT name, location FROM restaurants
               WHERE search_vector @@ (to_tsquery($1))`,
     [ search_query ]);
@@ -91,8 +91,8 @@ app.post("/api/v1/restaurants", async (req, res) => {
   console.log(req.body);
  
   try {
-     const name_vector = String(req.body.name);
-  const location_vector = String(req.body.location);
+     const name_vector = req.body.name;
+  const location_vector = req.body.location;
   const search_array = [name_vector,
                          location_vector]
     const results = await db.query(
@@ -117,8 +117,8 @@ app.post("/api/v1/restaurants", async (req, res) => {
 app.put("/api/v1/restaurants/:id", async (req, res) => {
 
   try {
-    const name_vector = String(req.body.name);
-  const location_vector = String(req.body.location);
+    const name_vector = req.body.name;
+  const location_vector = req.body.location;
   const search_vector = [name_vector,
                          location_vector]
     const results = await db.query(

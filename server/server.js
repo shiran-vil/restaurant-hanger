@@ -33,7 +33,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 
 //Search restaurants
-app.get('/api/v1/restaurants/search', async (req, res) => {
+app.get('/api/v1/restaurants', async (req, res) => {
 
   try {
     search_query = req.query.search_query

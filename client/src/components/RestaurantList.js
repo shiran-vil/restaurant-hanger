@@ -47,7 +47,7 @@ const RestaurantList = () => {
         e.preventDefault();
             
         try {
-          navigate(`/restaurants/search?search_query=${searching}`);
+          navigate(`/restaurants?search_query=${searching}`);
       
         } catch (error) {
             console.log(error);

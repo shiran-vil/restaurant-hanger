@@ -47,8 +47,7 @@ const RestaurantList = () => {
         e.preventDefault();
             
         try {
-          navigate(`/restaurants/search?search_query=${searching}`)
-          console.log(searching);
+          navigate(`/restaurants/search?search_query=${searching}`);
       
         } catch (error) {
             console.log(error);
@@ -108,7 +107,7 @@ const RestaurantList = () => {
               return (
                 <tr
                   onClick={() => handleRestaurantSelect(restaurant.id)}
-                  key={restaurant.id}
+                  key={restaurant.name}
                 >
                   <td>{restaurant.name}</td>
                   <td>{restaurant.location}</td>

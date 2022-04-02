@@ -38,8 +38,8 @@ app.get('/api/v1/restaurants/search', async (req, res) => {
   try {
     search_query = req.query.search_query
     console.log(search_query);
-    const searchResult = await db.query(`SELECT id, name, location, price_range FROM restaurants
-              WHERE search_vector @@ plainto_tsquery($1)`,
+   
+    const searchResult = await db.query(`SELECT name, location, price_range FROM restaurants WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'`,
       [search_query]);
     res.status(200).json({
       status: "success",
@@ -90,15 +90,16 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 app.post("/api/v1/restaurants", async (req, res) => {
 
   console.log(req.body);
-
+  
   try {
-    const name_vector = req.body.name;
-    const location_vector = req.body.location;
+    const name_vector = String(req.body.name);
+    const location_vector = String(req.body.location);
 
     const results = await db.query(
-      "INSERT INTO restaurants (name, location, price_range, search_vector) VALUES ($1, $2, $3, (to_tsvector($1) || to_tsvector($2))) returning *",
+      "INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) returning *",
       [req.body.name, req.body.location, req.body.price_range]
     );
+   
     console.log(results);
     res.status(201).json({
       status: "succes",
@@ -121,10 +122,10 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
     const location_vector = req.body.location;
 
     const results = await db.query(
-      "UPDATE restaurants SET name = $1, location = $2, price_range = $3, search_vector=(to_tsvector(name) || to_tsvector(location)) where id = $6 returning *",
-      [req.body.name, req.body.location, req.body.price_range, name_vector, location_vector, req.params.id]
+      "UPDATE restaurants SET name = $1, location = $2, price_range = $3 where id = $4 returning *",
+      [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
-
+   
     res.status(200).json({
       status: "succes",
       data: {

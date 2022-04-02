@@ -41,11 +41,12 @@ app.get("/api/v1/restaurants", async (req, res) => {
    
     const searchResult = await db.query("SELECT name, location, price_range FROM restaurants WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'",
       [search_query]);
+      
+    console.log(searchResult);
     res.status(200).json({
       status: "success",
-      results: searchResult.rows.length,
       data: {
-        restaurants: searchResult.rows,
+        restaurants: searchResult.rows[0],
       },
     });
   } catch (error) {

@@ -8,7 +8,6 @@ import StarRating from "./StarRating";
 const SearchBox = (props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const search_query = searchParams.get('search_query')
-  const params = new URLSearchParams([['search_query',  `${search_query}`]]);
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
   console.log(search_query);
 

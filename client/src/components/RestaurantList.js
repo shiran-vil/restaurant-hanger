@@ -41,19 +41,24 @@ const RestaurantList = () => {
   const handleRestaurantSelect = (id) => {
     navigate(`/restaurants/${id}`);
   };
-
-  const [searching, setSearch] = useState("");
+  
+  
+const [search_query, setSearch] = useState("");
   const handleSearch = async (e) => {
         e.preventDefault();
             
         try {
-         navigate(`/restaurants/find?search_query=${searching}`);
-      
+        navigate(`/restaurants/search?search_query=${search_query}`);
+      //        setRestaurants(
+      //   restaurants.filter((restaurant) => {
+      //     return (restaurant.name.includes(`${searching}`) || restaurant.location.includes(`${searching}`) );
+      //   })
+      // );
         } catch (error) {
             console.log(error);
         }
     }
-
+ 
 
 
 
@@ -89,7 +94,7 @@ const RestaurantList = () => {
         </div>
       </form>
      </div>  
-   
+
       <table className="table table-hover table-dark space">
         <thead>
           <tr className="bg-primary">

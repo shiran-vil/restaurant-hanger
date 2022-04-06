@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const url = require('url');
+const querystring = require('querystring');
 const db = require("./db");
 
 const morgan = require("morgan");
@@ -12,13 +14,10 @@ app.use(express.json());
 
 // Get all Restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
-
   try {
-    //const results = await db.query("select * from restaurants");
     const restaurantRatingsData = await db.query(
-      "select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id order by location ASC;"
+      "select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id order by location ASC"
     );
-
     res.status(200).json({
       status: "success",
       results: restaurantRatingsData.rows.length,
@@ -33,20 +32,21 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 
 //Search restaurants
-app.get("/api/v1/restaurants", async (req, res) => {
-
-  try {
-    search_query = req.query.search_query
+app.get("/api/v1/restaurants/search", async (req, res) => {
+    let search_query = req.query.search_query;
     console.log(search_query);
+  try {
+    
+    // const searchFilter = search_query ? { search_query: { $regex: search_query, $options: 'i' } } : {};
+    //console.log(search_query);
    
-    const searchResult = await db.query("SELECT name, location, price_range FROM restaurants WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'",
+    const searchResult = await db.query("SELECT id, name, location, price_range FROM restaurants WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'",
       [search_query]);
-      
-    console.log(searchResult);
+     console.log(searchResult);
     res.status(200).json({
       status: "success",
       data: {
-        restaurants: searchResult.rows[0],
+        searchRestaurants: searchResult.rows,
       },
     });
   } catch (error) {
@@ -91,16 +91,14 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 app.post("/api/v1/restaurants", async (req, res) => {
 
   console.log(req.body);
-  
+
   try {
-    const name_vector = String(req.body.name);
-    const location_vector = String(req.body.location);
 
     const results = await db.query(
       "INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) returning *",
       [req.body.name, req.body.location, req.body.price_range]
     );
-   
+
     console.log(results);
     res.status(201).json({
       status: "succes",
@@ -119,14 +117,12 @@ app.post("/api/v1/restaurants", async (req, res) => {
 app.put("/api/v1/restaurants/:id", async (req, res) => {
 
   try {
-    const name_vector = req.body.name;
-    const location_vector = req.body.location;
 
     const results = await db.query(
       "UPDATE restaurants SET name = $1, location = $2, price_range = $3 where id = $4 returning *",
       [req.body.name, req.body.location, req.body.price_range, req.params.id]
     );
-   
+
     res.status(200).json({
       status: "succes",
       data: {

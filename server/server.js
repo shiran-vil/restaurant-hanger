@@ -16,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/api/v1/restaurants", async (req, res) => {
   try {
       const { search } = req.query
+      console.log(search);
   let response
 
   if (search) {

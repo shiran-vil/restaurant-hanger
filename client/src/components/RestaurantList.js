@@ -43,13 +43,20 @@ const RestaurantList = () => {
   };
 
 
-  const [searching, setSearch] = useState("");
+  const [search, setSearch] = useState("");
   const handleSearch = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await RestaurantFinder.get(`/?search=${searching}`);
+      const goToSearchedRestaurants = () =>
+    navigate({
+      pathname: '/',
+      search: `?search=${search}`,
+    });
+    goToSearchedRestaurants();
+      const response = await RestaurantFinder.get(`/?search=${search}`);
       setRestaurants(response.data.data.restaurants);
+      
     } catch (error) {
       console.log(error);
     }
@@ -58,8 +65,10 @@ const RestaurantList = () => {
 
   const clearSearch = async () => {
     try {
+      navigate("/")
       const response = await RestaurantFinder.get("/");
       setRestaurants(response.data.data.restaurants);
+      
     } catch (error) {
       console.log(error);
     }

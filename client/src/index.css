@@ -92,6 +92,7 @@ label {
   right: 4%;
   cursor: pointer;
 }
+
 .search-hover:hover {
   background-color: #dceaf5;
 }
@@ -122,4 +123,5 @@ label {
   .table-header {
     font-size: 0.9rem;
   }
+
 }

@@ -13,7 +13,7 @@ const RestaurantList = () => {
         const response = await RestaurantFinder.get("/");
         console.log(response.data.data);
         setRestaurants(response.data.data.restaurants);
-      } catch (err) {}
+      } catch (err) { }
     };
 
     fetchData();
@@ -41,26 +41,29 @@ const RestaurantList = () => {
   const handleRestaurantSelect = (id) => {
     navigate(`/restaurants/${id}`);
   };
-  
-  
-const [searching, setSearch] = useState("");
+
+
+  const [searching, setSearch] = useState("");
   const handleSearch = async (e) => {
-        e.preventDefault();
-            
-        try {
-        navigate(`/restaurants/search?search_query=${searching}`);
-      //        setRestaurants(
-      //   restaurants.filter((restaurant) => {
-      //     return (restaurant.name.includes(`${searching}`) || restaurant.location.includes(`${searching}`) );
-      //   })
-      // );
-        } catch (error) {
-            console.log(error);
-        }
+    e.preventDefault();
+
+    try {
+      const response = await RestaurantFinder.get(`/?search=${searching}`);
+      setRestaurants(response.data.data.restaurants);
+    } catch (error) {
+      console.log(error);
     }
- 
+  }
 
 
+  const clearSearch = async () => {
+    try {
+      const response = await RestaurantFinder.get("/");
+      setRestaurants(response.data.data.restaurants);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const renderRating = (restaurant) => {
     if (!restaurant.count) {
@@ -76,24 +79,25 @@ const [searching, setSearch] = useState("");
 
   return (
     <div className="list-group content-wrap">
-    <div className="">
-      <form className="">
-        <div className="row ">
-          <div className="col-auto">
-            <input
-            id="search"
-            label="Search"
-            className=" form-control"
-            placeholder="Search"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+      <div className="mb-2 add-rest-flex d-flex">
+        <form className="">
+          <div className="row ">
+            <div className="col-auto">
+              <input
+                id="search"
+                label="Search"
+                className=" form-control"
+                placeholder="Search"
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            <div className="col tight">
+              <i className="fas fa-search search-hover" onClick={handleSearch} ></i>
+            </div>
           </div>
-          <div className="col tight">
-            <i className="fas fa-search search-hover" onClick={handleSearch} ></i>
-          </div>
-        </div>
-      </form>
-     </div>  
+        </form>
+        <button onClick={clearSearch} className="btn btn-primary col-auto layout-style">Clear Search</button>
+      </div>
 
       <table className="table table-hover table-dark space">
         <thead>
@@ -137,7 +141,7 @@ const [searching, setSearch] = useState("");
                 </tr>
               );
             })}
-         
+
         </tbody>
       </table>
     </div>

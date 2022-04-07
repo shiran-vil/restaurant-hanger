@@ -43,37 +43,6 @@ const RestaurantList = () => {
   };
 
 
-  const [search, setSearch] = useState("");
-  const handleSearch = async (e) => {
-    e.preventDefault();
-
-    try {
-      const goToSearchedRestaurants = () =>
-    navigate({
-      pathname: '/',
-      search: `?search=${search}`,
-    });
-    goToSearchedRestaurants();
-      const response = await RestaurantFinder.get(`/?search=${search}`);
-      setRestaurants(response.data.data.restaurants);
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-
-  const clearSearch = async () => {
-    try {
-      navigate("/")
-      const response = await RestaurantFinder.get("/");
-      setRestaurants(response.data.data.restaurants);
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const renderRating = (restaurant) => {
     if (!restaurant.count) {
       return <span className="text-warning">0 reviews</span>;
@@ -88,26 +57,6 @@ const RestaurantList = () => {
 
   return (
     <div className="list-group content-wrap">
-      <div className="mb-2 add-rest-flex d-flex">
-        <form className="">
-          <div className="row ">
-            <div className="col-auto">
-              <input
-                id="search"
-                label="Search"
-                className=" form-control"
-                placeholder="Search"
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
-            <div className="col tight">
-              <i className="fas fa-search search-hover" onClick={handleSearch} ></i>
-            </div>
-          </div>
-        </form>
-        <button onClick={clearSearch} className="btn btn-primary col-auto layout-style">Clear Search</button>
-      </div>
-
       <table className="table table-hover table-dark space">
         <thead>
           <tr className="bg-primary">

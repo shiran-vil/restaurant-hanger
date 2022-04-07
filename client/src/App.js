@@ -5,7 +5,7 @@ import UpdatePage from './routes/UpdatePage';
 import RestaurantDetailPage from './routes/RestaurantDetailsPage';
 import { RestaurantsContextProvider } from './context/RestaurantsContext';
 import React from "react";
-import SearchBox from './components/SearchBox';
+
 function App() {
   return (
     <BrowserRouter>
@@ -14,7 +14,6 @@ function App() {
           
             <Routes>
               <Route exact path="/" element={<Home />}></Route>
-              <Route path="/restaurants/:search" element={<SearchBox />}></Route>
               <Route exact path= "/restaurants/:id/update" element={<UpdatePage />}></Route>
               <Route exact path="/restaurants/:id" element={<RestaurantDetailPage />}></Route>
               

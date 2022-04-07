@@ -4,7 +4,6 @@ export const RestaurantsContext = createContext();
 
 export const RestaurantsContextProvider = (props) => {
   const [restaurants, setRestaurants] = useState([]);
-  const [searchRestaurants, setSearchRestaurants] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   const addRestaurants = (restaurant) => {
@@ -19,9 +18,7 @@ export const RestaurantsContextProvider = (props) => {
         setRestaurants,
         addRestaurants,
         selectedRestaurant,
-        setSelectedRestaurant,
-        searchRestaurants,
-        setSearchRestaurants
+        setSelectedRestaurant
       }}
     >
       {props.children}

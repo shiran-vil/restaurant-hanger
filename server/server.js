@@ -1,8 +1,6 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const url = require('url');
-const querystring = require('querystring');
 const db = require("./db");
 
 const morgan = require("morgan");
@@ -15,18 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 // Get all Restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
   try {
-      const { search } = req.query
-      console.log(search);
+      
   let response
 
-  if (search) {
-    response = await db.query("select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'", [search]);
-  } else {
     response = await db.query( "select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id order by location ASC"); 
-  }
-    // const restaurantRatingsData = await db.query(
-    //   "select * from restaurants left join (select restaurant_id, COUNT(*), TRUNC(AVG(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id = reviews.restaurant_id order by location ASC"
-    // );
+   
     res.status(200).json({
       status: "success",
       results: response.rows.length,
@@ -40,29 +31,7 @@ app.get("/api/v1/restaurants", async (req, res) => {
 });
 
 
-//Search restaurants
-app.get("/api/v1/restaurants/:search", async (req, res) => {
-    let search_query = String(req.query.search_query);
-    console.log(search_query);
-  try {
-    
-    // const searchFilter = search_query ? { search_query: { $regex: search_query, $options: 'i' } } : {};
-    //console.log(search_query);
-   
-    const searchResult = await db.query("SELECT id, name, location, price_range FROM restaurants WHERE to_tsvector('english', name || ' ' || location) @@ to_tsquery('english', $1) OR lower(name) like '%$1%' OR lower(location) like '%$1%'",
-      [search_query]);
-     console.log(searchResult);
-    res.status(200).json({
-      status: "success",
-      data: {
-        searchRestaurants: searchResult.rows,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-  }
 
-});
 
 
 //Get a Restaurant

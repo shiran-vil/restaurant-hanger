@@ -43,12 +43,12 @@ const RestaurantList = () => {
   };
   
   
-const [search_query, setSearch] = useState("");
+const [searching, setSearch] = useState("");
   const handleSearch = async (e) => {
         e.preventDefault();
             
         try {
-        navigate(`/restaurants/search?search_query=${search_query}`);
+        navigate(`/restaurants/search?search_query=${searching}`);
       //        setRestaurants(
       //   restaurants.filter((restaurant) => {
       //     return (restaurant.name.includes(`${searching}`) || restaurant.location.includes(`${searching}`) );

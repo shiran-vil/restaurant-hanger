@@ -8,9 +8,9 @@ const db = require("./db");
 const morgan = require("morgan");
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Get all Restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
@@ -32,8 +32,8 @@ app.get("/api/v1/restaurants", async (req, res) => {
 
 
 //Search restaurants
-app.get("/api/v1/restaurants/search", async (req, res) => {
-    let search_query = req.query.search_query;
+app.get("/api/v1/restaurants/:search", async (req, res) => {
+    let search_query = String(req.query.search_query);
     console.log(search_query);
   try {
     

@@ -2,13 +2,15 @@ import React, { useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { RestaurantsContext } from "../context/RestaurantsContext";
 import RestaurantFinder from "../apis/RestaurantFinder";
-import StarRating from "./StarRating";
+
 
 
 const SearchBox = (props) => {
-  const useQuery = () => new URLSearchParams(useLocation().search);
-  const query = useQuery();
-  const search_query = query.get('search_query');
+  const query = new URLSearchParams(useLocation().search);
+  const search_query = query.get("search_query");
+  // let [searchParams, setSearchParams] = useSearchParams();
+  // let search_query = searchParams.get("search_query");
+  console.log(search_query);
   const { restaurants, setRestaurants } = useContext(RestaurantsContext);
   const navigate = useNavigate();
   const handleRestaurantSelect = (id) => {
@@ -28,7 +30,7 @@ const SearchBox = (props) => {
     };
 
     fetchData();
-  }, [search_query]);
+  }, []);
 
 
 
